@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta QR Code</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+     <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+    
+</head>
+<body>
+    <div class="main animate__animated animate__fadeIn">
+        <h1> GERADOR QR PARA CARTAS</h1>
+        <div class="container">
+          
+            
+            <div class="form-element">
+                <label for="data-ip">Link da página</label>
+                <input type="text" id="link" placeholder="Insira aqui o link">
+              </div>
+
+              <div class="form-element">
+                <label for="data-ip">Texto a apresentar</label>
+                <input type="text" id="description" placeholder="Insira aqui a descrição do QR Code">
+              </div>
+              <div class="form-element" id="left-checkbox">
+                <label for="vehicle1"> Mostrar icon em cartão QR </label><br>
+                <input type="checkbox" id="iconShow" name="iconShow" value="true">
+                <button class="animate__animated animate__bounce" id="gerar">Gerar código QR</button>
+            </div>
+            
+        </div>
+       
+
+    </div>
+
+    <div class="bottom animate__animated animate__fadeIn">
+
+        <div id="image-container">
+            <img id="imagescan" src="scanimage.jpg" >
+            <p>"Coloque em cima o texto que pretende que apareça aqui."</p>
+            <img id="qr" src="qr.png">
+        </div>
+        <div class="right" id="cont">
+            <button class="animate__animated animate__bounce" id="copiar">Download para .png</button>
+            <button class="animate__animated animate__bounce" id="clipboard">Copiar para área de transferência</button> 
+     
+        </div>
+        <div id="qr-container">
+            <img id="qr-solo" src="qr.png">
+
+        </div>
+        <div class="right">
+ 
+            <button class="animate__animated animate__bounce" id="qr-download">Download para .png</button> 
+            <button class="animate__animated animate__bounce" id="qr-clipboard">Copiar para área de transferência</button>
+        </div>
+      
+    </div>
+    <script src="app.js"></script>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.js"></script>
+
+<script>
+    let buttonGenerate = document.querySelector("#copiar");
+    let buttonCopy = document.querySelector("#clipboard");
+
+    let buttonQr = document.querySelector("#qr-download");
+    let buttonCopyQr = document.querySelector("#qr-clipboard");
+    
+
+    buttonGenerate.addEventListener("click",function(){
+
+      
+        html2canvas(document.getElementById("image-container")).then(function(canvas) {
+            var link = document.createElement("a");
+            document.body.appendChild(link);
+            link.download = "QrCodeCarta.jpg";
+            link.href = canvas.toDataURL();
+            link.target = '_blank';
+            link.click();
+        });
+
+
+    });
+
+    buttonCopy.addEventListener("click",function(){
+      
+      html2canvas(document.getElementById("image-container")).then(function(canvas) {
+          var link = document.createElement("a");
+          document.body.appendChild(link);
+          link.href = canvas.toDataURL();
+          
+          link.click();
+          canvas.toBlob(blob => navigator.clipboard.write([new ClipboardItem({'image/png': blob})]));
+      });
+
+  });
+
+
+  buttonQr.addEventListener("click",function(){
+
+      
+html2canvas(document.getElementById("qr-container")).then(function(canvas) {
+    var link = document.createElement("a");
+    document.body.appendChild(link);
+    link.download = "QrCode.jpg";
+    link.href = canvas.toDataURL();
+    link.target = '_blank';
+    link.click();
+});
+
+
+});
+
+buttonCopyQr.addEventListener("click",function(){
+
+      
+    html2canvas(document.getElementById("qr-container")).then(function(canvas) {
+          var link = document.createElement("a");
+          document.body.appendChild(link);
+          link.href = canvas.toDataURL();
+          
+          link.click();
+          canvas.toBlob(blob => navigator.clipboard.write([new ClipboardItem({'image/png': blob})]));
+      });
+
+});
+
+</script>
+</html>
